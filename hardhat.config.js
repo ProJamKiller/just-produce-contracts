@@ -14,18 +14,15 @@ module.exports = {
     },
   },
   networks: {
-    // Local Hardhat network for testing
     hardhat: {
       chainId: 31337,
     },
-    // Optimism Mainnet (for Hardhat compatibility, optional for Thirdweb CLI)
     optimism: {
       url: OPTIMISM_RPC_URL || "https://mainnet.optimism.io",
       accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
       chainId: 10,
     },
   },
-  // For verifying contracts on Optimism Etherscan
   etherscan: {
     apiKey: {
       optimism: OPTIMISM_API_KEY,
@@ -42,9 +39,10 @@ module.exports = {
     ],
   },
   paths: {
-    sources: "./contracts",
-    tests: "./test",
-    cache: "./cache",
-    artifacts: "./artifacts",
+    sources: "./contracts",      // Matches your contracts/ folder
+    scripts: "./scripts",        // Matches your scripts/ folder
+    cache: "./cache",           // Default cache location
+    artifacts: "./artifacts",   // Matches your artifacts/ folder
+    tests: "./test",            // Add this folder if you plan to write tests
   },
 };
