@@ -1,0 +1,16 @@
+# .gitignore
+
+# Node modules and logs
+node_modules/
+npm-debug.log*
+
+# Environment file
+.env
+
+# Hardhat artifacts and cache
+artifacts/
+cache/
+
+# Next.js build output (if using Next.js)
+.next/
+out/
