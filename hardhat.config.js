@@ -1,12 +1,11 @@
 require("@nomicfoundation/hardhat-toolbox");
-require("@thirdweb-dev/hardhat-deploy");
+require("dotenv").config();
 
-const dotenv = require("dotenv");
-dotenv.config();
+const { PRIVATE_KEY, OPTIMISM_RPC_URL, OPTIMISM_API_KEY } = process.env;
 
 module.exports = {
   solidity: {
-    version: "0.8.19",
+    version: "0.8.19", // Matches MojoClaim.sol
     settings: {
       optimizer: {
         enabled: true,
@@ -15,29 +14,37 @@ module.exports = {
     },
   },
   networks: {
+    // Local Hardhat network for testing
     hardhat: {
-      chainId: 1337,
+      chainId: 31337,
     },
-    ethereum: {
-      url:
-        process.env.ETHEREUM_RPC_URL ||
-        "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID",
-      accounts: process.env.PRIVATE_KEY
-        ? [process.env.PRIVATE_KEY]
-        : [],
-    },
-    polygon: {
-      url:
-        process.env.POLYGON_RPC_URL ||
-        "https://polygon-mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID",
-      accounts: process.env.PRIVATE_KEY
-        ? [process.env.PRIVATE_KEY]
-        : [],
+    // Optimism Mainnet (for Hardhat compatibility, optional for Thirdweb CLI)
+    optimism: {
+      url: OPTIMISM_RPC_URL || "https://mainnet.optimism.io",
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+      chainId: 10,
     },
   },
-  thirdweb: {
-    deployer: {
-      default: process.env.WALLET_ADDRESS,
+  // For verifying contracts on Optimism Etherscan
+  etherscan: {
+    apiKey: {
+      optimism: OPTIMISM_API_KEY,
     },
+    customChains: [
+      {
+        network: "optimism",
+        chainId: 10,
+        urls: {
+          apiURL: "https://api-optimistic.etherscan.io/api",
+          browserURL: "https://optimistic.etherscan.io",
+        },
+      },
+    ],
+  },
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts",
   },
 };

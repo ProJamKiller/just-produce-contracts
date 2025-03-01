@@ -2,27 +2,22 @@
   "name": "mojo-claim-contract",
   "version": "1.0.0",
   "description": "Mojo Token Claim Contract",
-  "main": "index.js",
   "scripts": {
-    "build": "npx thirdweb@latest contract build",
-    "deploy": "npx thirdweb@latest contract deploy",
-    "release": "npx thirdweb@latest release"
+    "build": "npx hardhat compile",
+    "test": "npx hardhat test",
+    "deploy": "npx hardhat run scripts/deploy.js",
+    "lint": "npx solhint 'contracts/**/*.sol'"
   },
-  "keywords": [
-    "thirdweb",
-    "smart-contract",
-    "blockchain",
-    "token-claim"
-  ],
-  "author": "",
-  "license": "MIT",
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
-    "hardhat": "^2.19.0",
-    "thirdweb": "^5.0.0"
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@thirdweb-dev/contracts": "^3.0.0",
+    "ethers": "^6.11.1",
+    "hardhat": "^2.22.1",
+    "solhint": "^4.5.2"
   },
   "dependencies": {
-    "@thirdweb-dev/contracts": "^3.0.0",
-    "@openzeppelin/contracts": "^4.9.0"
-  }
+    "dotenv": "^16.4.5"
+  },
+  "license": "MIT"
 }
