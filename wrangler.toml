@@ -1,0 +1,8 @@
+name = "just-produce-contracts"
+type = "javascript"
+account_id = "c6797fa2baa8e4a322caacbd46a52fc6"
+workers_dev = false
+
+# Custom domain settings
+route = "mojo.producerprotocol.pro/*"
+zone_id = "b0e0d96207a3b3f37f8b4093982e34c1"
