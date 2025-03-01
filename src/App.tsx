@@ -1,6 +1,6 @@
 import React from "react";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import ClaimPage from "./components/ClaimPage";
+import ClaimPage from "./components/claimpage";
 
 function App() {
   return (

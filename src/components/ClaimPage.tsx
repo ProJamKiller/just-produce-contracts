@@ -4,12 +4,12 @@ import {
   useConnect,
   useContract,
   useContractWrite,
+  Web3Button,
 } from "@thirdweb-dev/react";
 import styles from "./ClaimPage.module.css";
 
-
 const CLAIM_CONTRACT_ADDRESS =
-  process.env.REACT_APP_CLAIM_CONTRACT_ADDRESS;
+  process.env.REACT_APP_CLAIM_CONTRACT_ADDRESS || "";
 const LOGO_URL =
   "https://bafybeig6dpytw3q4v7vzdy6sb7q4x3apqgrvfi3zsbvb3n6wvs5unfr36i.ipfs.dweb.link?filename=480.gif";
 const BACKGROUND_URL =
@@ -30,7 +30,7 @@ const ClaimPage: React.FC = () => {
 
   const handleClaim = async () => {
     try {
-      await claim();
+      await claim({});
       setClaimStatus("Successfully claimed tokens!");
     } catch (error) {
       setClaimStatus(
@@ -59,21 +59,25 @@ const ClaimPage: React.FC = () => {
           <h1>MOJO Token Claim</h1>
 
           {!address ? (
-            <button
-              onClick={() => connect()}
-              className={styles.connectButton}
-            >
-              Connect Wallet
-            </button>
+           <Web3Button
+           contractAddress={CLAIM_CONTRACT_ADDRESS}
+           action={handleClaim}
+           connectWallet={{}}
+           className={styles.connectButton}
+         >
+           Connect Wallet
+         </Web3Button>
+         
           ) : (
             <div className={styles.claimSection}>
-              <button
-                onClick={handleClaim}
-                disabled={isLoading}
+              <Web3Button
+                contractAddress={CLAIM_CONTRACT_ADDRESS}
+                action={handleClaim}
                 className={styles.claimButton}
               >
                 {isLoading ? "Claiming..." : "Claim Tokens"}
-              </button>
+              </Web3Button>
+
               {claimStatus && (
                 <p className={styles.statusMessage}>
                   {claimStatus}
