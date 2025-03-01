@@ -13,18 +13,24 @@
   "dependencies": {
     "@thirdweb-dev/cli": "^0.14.12",
     "@thirdweb-dev/contracts": "^3.15.0",
-    "@thirdweb-dev/react": "^4.6.12",
-    "@thirdweb-dev/sdk": "^4.0.73",
+    "@thirdweb-dev/react": "^4.9.4",
+    "@thirdweb-dev/sdk": "^4.0.99",
+    "elliptic": "^6.5.4",
     "ethers": "^5.7.2",
     "next": "^14.2.24",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "typescript": "^5.4.2",
     "@types/node": "^20.11.30",
-    "@types/react": "^18.2.64"
+    "@types/react": "^18.2.64",
+    "typescript": "^5.4.2"
   },
-  "keywords": ["web3", "thirdweb", "optimism", "blockchain"],
+  "keywords": [
+    "web3",
+    "thirdweb",
+    "optimism",
+    "blockchain"
+  ],
   "license": "MIT"
 }
