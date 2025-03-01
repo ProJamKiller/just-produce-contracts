@@ -1,7 +1,12 @@
 {
   "dependencies": {
-    "@thirdweb-dev/sdk": "^4.0.99",
+    "@thirdweb-dev/sdk": "^4.0.73",
     "dotenv": "^16.4.7",
     "fs": "^0.0.1-security"
+  },
+  "devDependencies": {
+    "@thirdweb-dev/react": "^4.6.12",
+    "@types/css-modules": "^1.0.5",
+    "@types/react": "^18.3.18"
   }
 }
