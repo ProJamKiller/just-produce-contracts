@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@thirdweb-dev/contracts/auth/PermissionsEnumerable.sol";
 
-interface IMintableERC20 is IERC20 {
-    function mint(address to, uint256 amount) external;
+interface IMojoToken {
+    function mintTo(address to, uint256 amount) external;
 }
 
-contract MojoClaim {
-    IMintableERC20 public immutable mojoToken;
-    address public admin;
+contract MojoClaim is PermissionsEnumerable {
+    IMojoToken public immutable mojoToken;
     uint256 public constant CLAIM_AMOUNT = 100000 * 1e18;
 
     mapping(address => bool) public allowList;
@@ -19,29 +18,24 @@ contract MojoClaim {
     event AllowListRemoved(address indexed user);
     event TokensClaimed(address indexed user, uint256 amount);
 
-    modifier onlyAdmin() {
-        require(msg.sender == admin, "Not admin");
-        _;
+    constructor(address _mojoToken) {
+        mojoToken = IMojoToken(_mojoToken);
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-    constructor(IMintableERC20 _mojoToken) {
-        mojoToken = _mojoToken;
-        admin = msg.sender;
-    }
-
-    function addToAllowList(address user) external onlyAdmin {
+    function addToAllowList(address user) external onlyRole(DEFAULT_ADMIN_ROLE) {
         allowList[user] = true;
         emit AllowListAdded(user);
     }
 
-    function addMultipleToAllowList(address[] calldata users) external onlyAdmin {
+    function addMultipleToAllowList(address[] calldata users) external onlyRole(DEFAULT_ADMIN_ROLE) {
         for (uint256 i = 0; i < users.length; i++) {
             allowList[users[i]] = true;
             emit AllowListAdded(users[i]);
         }
     }
 
-    function removeFromAllowList(address user) external onlyAdmin {
+    function removeFromAllowList(address user) external onlyRole(DEFAULT_ADMIN_ROLE) {
         allowList[user] = false;
         emit AllowListRemoved(user);
     }
@@ -51,11 +45,12 @@ contract MojoClaim {
         require(!claimed[msg.sender], "Already claimed");
 
         claimed[msg.sender] = true;
-        mojoToken.mint(msg.sender, CLAIM_AMOUNT);
+        mojoToken.mintTo(msg.sender, CLAIM_AMOUNT);
         emit TokensClaimed(msg.sender, CLAIM_AMOUNT);
     }
 
-    function changeAdmin(address newAdmin) external onlyAdmin {
-        admin = newAdmin;
+    function changeAdmin(address newAdmin) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        _grantRole(DEFAULT_ADMIN_ROLE, newAdmin);
+        _revokeRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 }

@@ -6,9 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "compile": "npx hardhat compile",
-    "deploy": "npx hardhat run scripts/deploy.js --network optimism",
-    "load:allowlist": "node scripts/loadAllowList.js"
+    "deploy": "npx thirdweb deploy",
+    "load:allowlist": "node scripts/loadAllowList.js",
+    "lint": "next lint"
   },
   "dependencies": {
     "@thirdweb-dev/cli": "^0.14.12",
@@ -18,11 +18,13 @@
     "ethers": "^5.7.2",
     "next": "^14.2.24",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "thirdweb": "^5.90.0"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "hardhat": "^0.0.7"
+    "typescript": "^5.4.2",
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.64"
   },
+  "keywords": ["web3", "thirdweb", "optimism", "blockchain"],
   "license": "MIT"
 }
