@@ -8,8 +8,13 @@ import {
 } from "@thirdweb-dev/react";
 import styles from "../styles/ClaimPage.module.css";
 
-const CLAIM_CONTRACT_ADDRESS =
-  process.env.REACT_APP_CLAIM_CONTRACT_ADDRESS || "";
+interface ImportMeta {
+  env: {
+    VITE_CLAIM_CONTRACT_ADDRESS: string;
+  };
+}
+
+const CLAIM_CONTRACT_ADDRESS = import.meta.env.VITE_CLAIM_CONTRACT_ADDRESS || "";
 const LOGO_URL =
   "https://bafybeig6dpytw3q4v7vzdy6sb7q4x3apqgrvfi3zsbvb3n6wvs5unfr36i.ipfs.dweb.link?filename=480.gif";
 const BACKGROUND_URL =
