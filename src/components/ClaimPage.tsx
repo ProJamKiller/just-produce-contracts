@@ -6,7 +6,7 @@ import {
   useContractWrite,
   Web3Button,
 } from "@thirdweb-dev/react";
-import styles from "./ClaimPage.module.css";
+import styles from "../styles/ClaimPage.module.css";
 
 const CLAIM_CONTRACT_ADDRESS =
   process.env.REACT_APP_CLAIM_CONTRACT_ADDRESS || "";
