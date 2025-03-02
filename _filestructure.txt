@@ -1,5 +1,5 @@
 .
-├── _filestructure
+├── _filestructure.txt
 ├── allowlist.json
 ├── artifacts
 │   └── MojoClaim.sol
@@ -14,9 +14,10 @@
 │   ├── App.tsx
 │   ├── components
 │   │   └── ClaimPage.tsx
+│   ├── main.jsx
 │   └── styles
 │       └── ClaimPage.module.css
 ├── ts.config
 └── wrangler.toml
 
-8 directories, 12 files
+8 directories, 13 files
