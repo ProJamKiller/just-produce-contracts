@@ -1,0 +1,22 @@
+.
+├── _filestructure
+├── allowlist.json
+├── artifacts
+│   └── MojoClaim.sol
+│       └── MojoClaim.json
+├── contracts
+│   └── MojoClaim.sol
+├── package-lock.json
+├── package.json
+├── scripts
+│   └── loadallowlist.js
+├── src
+│   ├── App.tsx
+│   ├── components
+│   │   └── ClaimPage.tsx
+│   └── styles
+│       └── ClaimPage.module.css
+├── ts.config
+└── wrangler.toml
+
+8 directories, 12 files
