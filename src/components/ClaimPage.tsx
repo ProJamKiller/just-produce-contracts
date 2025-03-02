@@ -1,99 +1,63 @@
-import React, { useState } from "react";
-import {
-  useAddress,
-  useConnect,
-  useContract,
-  useContractWrite,
-  Web3Button,
-} from "@thirdweb-dev/react";
-import styles from "../styles/ClaimPage.module.css";
-
-interface ImportMeta {
-  env: {
-    VITE_CLAIM_CONTRACT_ADDRESS: string;
-  };
-}
-
-const CLAIM_CONTRACT_ADDRESS = import.meta.env.VITE_CLAIM_CONTRACT_ADDRESS || "";
-const LOGO_URL =
-  "https://bafybeig6dpytw3q4v7vzdy6sb7q4x3apqgrvfi3zsbvb3n6wvs5unfr36i.ipfs.dweb.link?filename=480.gif";
-const BACKGROUND_URL =
-  "https://bafybeieypdtrkynr24g2enemwxssni7ug26zwvcz7mwkl6zmhlax4kvrfm.ipfs.dweb.link?filename=mojoclaimbackground.jpeg";
-
-const ClaimPage: React.FC = () => {
+import React, { useState, useEffect } from "react";
+import { useContract, useAddress } from "@thirdweb-dev/react";
+ import styles from "../styles/ClaimPage.module.css";
+function ClaimSection() {
   const address = useAddress();
-  const connect = useConnect();
-  const { contract } = useContract(CLAIM_CONTRACT_ADDRESS);
-  const { mutate: claim, isLoading } = useContractWrite(
-    contract,
-    "claim",
-  );
+  const { contract } = useContract(process.env.REACT_APP_CLAIM_CONTRACT_ADDRESS);
+  const [isAllowed, setIsAllowed] = useState(false);
+  const [hasClaimed, setHasClaimed] = useState(false);
 
-  const [claimStatus, setClaimStatus] = useState<
-    string | null
-  >(null);
-
-  const handleClaim = async () => {
+  // Function to check if the connected address is on the allow list
+  const checkAllowList = async () => {
+    if (!contract || !address) return;
     try {
-      await claim({});
-      setClaimStatus("Successfully claimed tokens!");
-    } catch (error) {
-      setClaimStatus(
-        "Claim failed. Check your eligibility.",
-      );
-      console.error(error);
+      const allowed = await contract.call("allowList", [address]);
+      setIsAllowed(allowed);
+    } catch (err) {
+      console.error("Error checking allow list:", err);
+    }
+  };
+
+  // Function to check if tokens have been claimed
+  const checkClaimStatus = async () => {
+    if (!contract || !address) return;
+    try {
+      const claimed = await contract.call("claimed", [address]);
+      setHasClaimed(claimed);
+    } catch (err) {
+      console.error("Error checking claim status:", err);
+    }
+  };
+
+  useEffect(() => {
+    checkAllowList();
+    checkClaimStatus();
+  }, [contract, address]);
+
+  const claimTokens = async () => {
+    if (!contract) return;
+    try {
+      const tx = await contract.call("claim");
+      console.log("Tokens claimed:", tx);
+    } catch (err) {
+      console.error("Claim failed:", err);
     }
   };
 
   return (
-    <div
-      className={styles.container}
-      style={{
-        backgroundImage: `url(${BACKGROUND_URL})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className={styles.overlay}>
-        <div className={styles.claimBox}>
-          <img
-            src={LOGO_URL}
-            alt="Mojo Claim Logo"
-            className={styles.logo}
-          />
-          <h1>MOJO Token Claim</h1>
-
-          {!address ? (
-           <Web3Button
-           contractAddress={CLAIM_CONTRACT_ADDRESS}
-           action={handleClaim}
-           connectWallet={{}}
-           className={styles.connectButton}
-         >
-           Connect Wallet
-         </Web3Button>
-         
-          ) : (
-            <div className={styles.claimSection}>
-              <Web3Button
-                contractAddress={CLAIM_CONTRACT_ADDRESS}
-                action={handleClaim}
-                className={styles.claimButton}
-              >
-                {isLoading ? "Claiming..." : "Claim Tokens"}
-              </Web3Button>
-
-              {claimStatus && (
-                <p className={styles.statusMessage}>
-                  {claimStatus}
-                </p>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+    <div>
+      <h2>Claim Your Tokens</h2>
+      {isAllowed ? (
+        hasClaimed ? (
+          <p>You have already claimed your tokens.</p>
+        ) : (
+          <button onClick={claimTokens}>Claim Tokens</button>
+        )
+      ) : (
+        <p>Your address is not on the allow list.</p>
+      )}
     </div>
   );
-};
+}
 
-export default ClaimPage;
+export default ClaimSection;
